@@ -2,25 +2,79 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from "expo";
 import { Ionicons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
-export default class Weather extends Component {
-    render () {
-        return (
-            <LinearGradient 
-                colors={["#00C6FB", "#005BEA"]} 
-                style={styles.container}>
-                <View style={styles.upper}>
-                    <Ionicons color="white" size={120} name="ios-rainy" />
-                    <Text style={styles.temp}>35°</Text>
-                </View>
-                <View style={styles.lower}>
-                    <Text style={styles.title}>Raining like a MF</Text>
-                    <Text style={styles.subtitle}>For more info look outside</Text>
-                </View>
-            </LinearGradient>
-        );
+const weatherCases = {
+    "Rain" : {
+        colors:["#00C6FB", "#005BEA"],
+        icon: "ios-rainy",
+        title: "Raining like a MF",
+        subtitle: "For more info look outside"
+    },
+    "Clean" : {
+        colors:["#00C6FB", "#005BEA"],
+        icon: "ios-sunny",
+        title: "Sunny as fuck",
+        subtitle: "Go get your ass burnt"
+    },
+    "Thunderstorm" : {
+        colors:["#00C6FB", "#005BEA"],
+        icon: "ios-thunderstorm",
+        title: "Thunderstorm in the house",
+        subtitle: "Actually, outside of the house"
+    },
+    "Clouds" : {
+        colors:["#00C6FB", "#005BEA"],
+        icon: "ios-clouds",
+        title: "Clouds",
+        subtitle: "I know, fucking boring"
+    },
+    "Snow" : {
+        colors:["#00C6FB", "#005BEA"],
+        icon: "ios-snow",
+        title: "Cold as balls",
+        subtitle: "Do you want to build a snowman? Fuck no."
+    },
+    "Drizzle" : {
+        colors:["#00C6FB", "#005BEA"],
+        icon: "ios-rainy-outside",
+        title: "Drizzle",
+        subtitle: "Is like rain, but gay 🇬🇲"
+    },
+    "Atmosphere" : {
+        colors:["#00C6FB", "#005BEA"],
+        icon: "ios-rmenu",
+        title: "Haze/Mist",
+        subtitle: "Is like rain, but gay 🇬🇲"
     }
-}
+};
+
+function Weather( {temp, weatherName} ) {
+    weatherCase = Object.getOwnPropertyNames({weatherCases}).includes({weatherName}) ?
+        {weatherCases[weatherName]} : {weatherCases["Atmosphere"]};
+
+    return (
+        <LinearGradient 
+            colors={weatherCase.colors} 
+            style={styles.container}>
+            <View style={styles.upper}>
+                <Ionicons color="white" size={120} name={weathercase.icon} />
+                <Text style={styles.temp}>{temp}°</Text>
+            </View>
+            <View style={styles.lower}>
+                <Text style={styles.title}>{weatherCase.title}</Text>
+                <Text style={styles.subtitle}>{weatherCase.subtitle}</Text>
+            </View>
+        </LinearGradient>
+    );
+} 
+
+Weather.propTypes = {
+    temp: PropTypes.number.isRequired,
+    weatherName: PropTypes.string.isRequired
+};
+
+export default Weather;
 
 const styles = StyleSheet.create({
     container: {
